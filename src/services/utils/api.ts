@@ -2,7 +2,8 @@ import axios, { AxiosError } from 'axios'
 import { APIError } from '../../errors/APIError'
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  // baseURL: 'http://localhost:3000', // Local
+  baseURL: 'https://dc-my-task-board-api.onrender.com', // Production
 })
 
 api.interceptors.response.use(
