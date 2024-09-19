@@ -1,7 +1,7 @@
-import { IBoard } from '../types/BoardTypes'
+import { IBoard, IUpdateBoardResponse } from '../types/BoardTypes'
 import { api } from './utils/api'
 
-interface BoardPayload {
+interface CreateBoardPayload {
   title: string
   description: string
   tasks: {
@@ -12,6 +12,11 @@ interface BoardPayload {
   }[]
 }
 
+interface UpdateBoardPayload {
+  title: string
+  description: string
+}
+
 class BoardService {
   async findBoard(id: string) {
     const { data } = await api.get<IBoard>(`/boards/${id}`)
@@ -19,8 +24,17 @@ class BoardService {
     return data
   }
 
-  async createBoard(payload: BoardPayload) {
+  async createBoard(payload: CreateBoardPayload) {
     const { data } = await api.post<IBoard>('/boards', payload)
+
+    return data
+  }
+
+  async updateBoard(id: string, payload: UpdateBoardPayload) {
+    const { data } = await api.put<IUpdateBoardResponse>(
+      `/boards/${id}`,
+      payload,
+    )
 
     return data
   }

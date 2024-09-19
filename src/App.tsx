@@ -31,8 +31,10 @@ export function App() {
       setCanEditHeader(false)
 
       if (!boardId) {
-        handleCreateBoard()
+        return handleCreateBoard()
       }
+
+      handleUpdateBoard()
     } else {
       setCanEditHeader(true)
 
@@ -155,6 +157,21 @@ export function App() {
     }
   }
 
+  async function handleUpdateBoard() {
+    try {
+      if (!boardId) {
+        return
+      }
+
+      await BoardService.updateBoard(boardId, {
+        title,
+        description,
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
+
   function updateUrl(boardId: string) {
     const newurl =
       window.location.protocol +
@@ -191,7 +208,7 @@ export function App() {
             ref={titleRef}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            onSubmit={() => setCanEditHeader(false)}
+            onSubmit={handleToggleEditTitle}
             disabled={!canEditHeader}
             maxLength={20}
             tabIndex={1}
@@ -210,7 +227,7 @@ export function App() {
           id="description-input"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          onSubmit={() => setCanEditHeader(false)}
+          onSubmit={handleToggleEditTitle}
           disabled={!canEditHeader}
           maxLength={50}
           tabIndex={2}

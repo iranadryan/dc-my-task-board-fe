@@ -6,3 +6,9 @@ export interface IBoard {
   description: string
   tasks: ITask[]
 }
+
+export interface IUpdateBoardResponse {
+  id: string
+  title: string
+  description: string
+}
